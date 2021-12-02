@@ -1,4 +1,6 @@
-﻿namespace Common;
+﻿using Superpower;
+
+namespace Common;
 
 public sealed class Runner
 {
@@ -8,7 +10,13 @@ public sealed class Runner
 
     public Runner(Configuration configuration) => _configuration = configuration;
 
-    public void Run<TOutput, TResult>(IParser<TOutput> parser, Func<TOutput, TResult> solutionOne, Func<TOutput, TResult>? solutionTwo)
+    public void Run<TOutput, TResult>(TextParser<TOutput> parser, Func<TOutput, TResult> solutionOne) => 
+        Run(parser, solutionOne, null);
+
+    public void Run<TOutput, TResult>(
+        TextParser<TOutput> parser,
+        Func<TOutput, TResult> solutionOne,
+        Func<TOutput, TResult>? solutionTwo)
     {
         var part = solutionTwo is null ? 1 : ReadPart();
         var decision = ReadDecision();
@@ -28,7 +36,7 @@ public sealed class Runner
         {
             var input = FileInput.FromPath(inputPath);
             var parsed = input.ParseAs(parser);
-            var result = solution(parsed);
+            var result = solution!(parsed);
 
             Console.WriteLine(result);
         }
