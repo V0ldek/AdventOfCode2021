@@ -10,13 +10,13 @@ public sealed class Runner
 
     public Runner(Configuration configuration) => _configuration = configuration;
 
-    public void Run<TOutput, TResult>(TextParser<TOutput> parser, Func<TOutput, TResult> solutionOne) => 
+    public void Run<TOutput>(TextParser<TOutput> parser, Func<TOutput, object> solutionOne) => 
         Run(parser, solutionOne, null);
 
-    public void Run<TOutput, TResult>(
+    public void Run<TOutput>(
         TextParser<TOutput> parser,
-        Func<TOutput, TResult> solutionOne,
-        Func<TOutput, TResult>? solutionTwo)
+        Func<TOutput, object> solutionOne,
+        Func<TOutput, object>? solutionTwo)
     {
         var part = solutionTwo is null ? 1 : ReadPart();
         var decision = ReadDecision();
