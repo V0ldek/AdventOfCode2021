@@ -11,7 +11,7 @@ new Runner().Run(
         cmds => cmds.Aggregate(AimBasedState.Initial, (state, x) => ExecuteCommand(state, x.cmd, x.n)).Product()
     );
 
-static T ExecuteCommand<T>(IState<T> state, string command, int commandParameter) where T: IState<T> => command switch
+static T ExecuteCommand<T>(IState<T> state, string command, int commandParameter) where T : IState<T> => command switch
 {
     "forward" => state.Forward(commandParameter),
     "up" => state.Up(commandParameter),
