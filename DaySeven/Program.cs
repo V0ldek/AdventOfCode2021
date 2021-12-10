@@ -31,10 +31,10 @@ static (int low, int high) Median(IEnumerable<int> xs)
 
     if (list.Count % 2 == 0)
     {
-        return (list[list.Count / 2], list[list.Count / 2]);
+        return (list[list.Count / 2 - 1], list[list.Count / 2]);
     }
     else
     {
-        return (list[list.Count / 2], list[list.Count / 2 + 1]);
+        return (list[list.Count / 2], list[list.Count / 2]);
     }
 }
