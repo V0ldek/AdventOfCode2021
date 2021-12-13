@@ -23,22 +23,37 @@ public sealed class Runner
 
         Console.WriteLine($"Running part {part} on {decision.ToString()!.ToLower()}...");
 
-        var (inputPath, solution) = (part, decision) switch
+        var (inputPaths, solution) = (part, decision) switch
         {
-            (1, Decision.Example) => (_configuration.PartOneExamplePath, solutionOne),
-            (1, Decision.Input) => (_configuration.PartOneInputPath, solutionOne),
-            (2, Decision.Example) => (_configuration.PartTwoExamplePath, solutionTwo),
-            (2, Decision.Input) => (_configuration.PartTwoInputPath, solutionTwo),
+            (1, Decision.Example) => (_configuration.PartOneExamplePaths, solutionOne),
+            (1, Decision.Input) => (new[] { _configuration.PartOneInputPath }, solutionOne),
+            (2, Decision.Example) => (_configuration.PartTwoExamplePaths, solutionTwo),
+            (2, Decision.Input) => (new[] { _configuration.PartTwoInputPath }, solutionTwo),
             _ => throw new InvalidOperationException()
         };
 
         try
         {
-            var input = FileInput.FromPath(inputPath);
-            var parsed = input.ParseAs(parser);
-            var result = solution!(parsed);
+            if (inputPaths.Count == 1)
+            {
+                var input = FileInput.FromPath(inputPaths[0]);
+                var parsed = input.ParseAs(parser);
+                var result = solution!(parsed);
 
-            Console.WriteLine(result);
+                Console.WriteLine(result);
+            }
+            else
+            {
+                for (var i = 0; i < inputPaths.Count; i += 1)
+                {
+                    var input = FileInput.FromPath(inputPaths[i]);
+                    var parsed = input.ParseAs(parser);
+                    var result = solution!(parsed);
+
+                    Console.WriteLine($"{decision} {i + 1}:");
+                    Console.WriteLine(result);
+                }
+            }
         }
         catch (Exception e)
         {
