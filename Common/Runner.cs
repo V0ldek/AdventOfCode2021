@@ -67,9 +67,11 @@ public sealed class Runner
                 {
                     var input = FileInput.FromPath(inputPaths[i]);
                     var parsed = parse(input);
-                    var result = solution!(parsed);
 
                     Console.WriteLine($"{decision} {i + 1}:");
+
+                    var result = solution!(parsed);
+
                     Console.WriteLine(result);
                 }
             }
